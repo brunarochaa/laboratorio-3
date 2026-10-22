@@ -1,44 +1,57 @@
 package filmnow;
 
+import java.util.Objects;
+
 public class Filme {
 
-    private String nome;
-    private String ano;
-    private String local;
-    private int posicao;
-    private boolean isHot;
+    private final String nome;
+    private final String ano;
+    private final String local;
 
-    public Filme(int posicao, String nome, String ano, String local) {
+    public Filme(String nome, String ano, String local) {
         this.nome = nome;
-        this.posicao = posicao;
-        this.local = local;
         this.ano = ano;
-        this.isHot = false;
+        this.local = local;
     }
 
-    public void setStatus(boolean isHot) {
-        if (isHot == false) {
-            isHot = true;
-        } else {
-            isHot = false;
-        }
+    public String getNome() {
+
+        return this.nome;
+    }
+
+    public String getAno() {
+
+        return this.ano;
+    }
+
+    public String getLocal() {
+
+        return this.local;
     }
 
     @Override
-    public String toString() {
-        return this.nome + ", " + this.ano + "\n" + this.local;
-    }
-
-   /* @Override
     public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
+        Filme filme = (Filme) o;
+
+        return nome.equals(filme.nome) && ano.equals(filme.ano);
     }
 
     @Override
     public int hashCode() {
 
+        return Objects.hash(nome, ano);
     }
 
-   */
-}
+    @Override
+    public String toString() {
 
+        return this.nome + ", "  + this.ano;
+    }
+}
