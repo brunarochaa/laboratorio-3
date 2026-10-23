@@ -87,12 +87,13 @@ public class MainFilmNow {
     private static void adicionaFilme(FilmNow fn, Scanner scanner) {
         System.out.print("\nPosição no sistema> ");
         int posicao = scanner.nextInt();
+        scanner.nextLine();
         System.out.print("\nNome> ");
-        String nome = scanner.next();
+        String nome = scanner.nextLine();
         System.out.print("\nAno> ");
-        String ano = scanner.next();
+        String ano = scanner.nextLine();
         System.out.print("\nLocal> ");
-        String local = scanner.next();
+        String local = scanner.nextLine();
         System.out.println(fn.cadastraFilme(posicao, nome, ano, local));
     }
 
@@ -114,9 +115,9 @@ public class MainFilmNow {
     }
 
     private static void atribuirHot(FilmNow fn, Scanner scanner) {
-        System.out.println("Filme> ");
+        System.out.print("\nFilme> ");
         int posicaoFilme = scanner.nextInt();
-        System.out.println("Posicao> ");
+        System.out.print("\nPosicao> ");
         int posicaoHot = scanner.nextInt();
         System.out.println(fn.adicionaHot(posicaoFilme, posicaoHot));
     }

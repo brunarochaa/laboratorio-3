@@ -29,7 +29,7 @@ public class FilmNow {
     }
 
     public String cadastraFilme(int posicao, String nome, String ano, String local) {
-        if (posicao < 1 || posicao >= this.filmes.length) {
+        if (posicao < 1 || posicao > this.filmes.length) {
             return "POSIÇÃO INVÁLIDA";
         }
 
@@ -67,7 +67,7 @@ public class FilmNow {
 
         Filme filme = this.filmes[posicao - 1];
         if (filme == null) {
-            return "POSIÇÃO INVÁLIDA|";
+            return "POSIÇÃO INVÁLIDA!";
         }
 
         boolean isHot = false;
@@ -78,20 +78,29 @@ public class FilmNow {
             }
         }
 
-        if (isHot == true) {
-            return "\uD83D\uDD25" + " " + filme.getNome() + ", " + filme.getAno() + "\n" + filme.getLocal();
-        }
+        if (filme.getAno() != "") {
+            if (isHot == true) {
+                return "\uD83D\uDD25" + " " + filme.getNome() + ", " + filme.getAno() + "\n" + filme.getLocal();
+            }
 
-        return filme.getNome() + ", " + filme.getAno() + "\n" + filme.getLocal();
+            return filme.getNome() + ", " + filme.getAno() + "\n" + filme.getLocal();
+        } else {
+
+            if (isHot == true) {
+                return "\uD83D\uDD25" + " " + filme.getNome() + "\n" + filme.getLocal();
+            }
+
+            return filme.getNome() + "\n" + filme.getLocal();
+        }
     }
 
     public String adicionaHot(int posicaoFilme, int posicaoHot) {
         if (posicaoFilme < 1 || posicaoFilme >= filmes.length || this.filmes[posicaoFilme - 1] == null) {
-            return "POSIÇÃO DE FILME INVÁLIDA|";
+            return "POSIÇÃO DE FILME INVÁLIDA!";
         }
 
-        if (posicaoHot < 1 || posicaoHot >= this.hotList.length) {
-            return "POSIÇÃO DA HOT LIST INVÁLIDA!";
+        if (posicaoHot < 1 || posicaoHot > this.hotList.length) {
+            return "POSIÇÃO DA HOTLIST INVÁLIDA!";
         }
 
         Filme filmeAAdicionar = this.filmes[posicaoFilme - 1];
@@ -103,12 +112,12 @@ public class FilmNow {
         }
 
         this.hotList[posicaoHot - 1] = filmeAAdicionar;
-        return "ADICIONADO À HOTLIST NA POSIÇÃO " + (posicaoHot + 1);
+        return "ADICIONADO À HOTLIST NA POSIÇÃO " + (posicaoHot);
     }
 
     public void removeHot(int posicaoHot) {
 
-        this.filmes[posicaoHot - 1] = null;
+        this.hotList[posicaoHot - 1] = null;
     }
 
     public String exibeHotList() {
