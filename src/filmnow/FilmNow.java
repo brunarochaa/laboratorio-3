@@ -108,21 +108,12 @@ public class FilmNow {
             }
         }
 
-        if (filme.getAno() != "") {
-            if (isHot == true) {
-                return "\uD83D\uDD25" + " " + filme.getNome() + ", " + filme.getAno() + "\n" + filme.getLocal();
-            }
-
-            return filme.getNome() + ", " + filme.getAno() + "\n" + filme.getLocal();
-        } else {
-
-            if (isHot == true) {
-                return "\uD83D\uDD25" + " " + filme.getNome() + "\n" + filme.getLocal();
-            }
-
-            return filme.getNome() + "\n" + filme.getLocal();
+        if (isHot== true) {
+            return "\uD83D\uDD25" + " " + filme.toString() + "\n" + filme.getLocal();
         }
-    }
+
+        return filme.toString() + "\n" + filme.getLocal();
+        }
 
     /**
      * Adiciona um filme à hotlist.
