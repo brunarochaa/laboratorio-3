@@ -13,21 +13,41 @@ public class FilmNow {
     private Filme[] filmes;
     private Filme[] hotList;
 
+    /**
+     * Constrói um objeto FilmNow com capacidade de 100 filmes e uma hotlist de até de 10 filmes.
+     */
     public FilmNow() {
         this.filmes = new Filme[TAMANHO];
         this.hotList = new Filme[TAMANHOHOT];
     }
 
+    /**
+     * Possibilita acesso ao array de filmes.
+     * @return Uma cópia do array.
+     */
     public Filme[] getFilmes() {
 
         return this.filmes.clone();
     }
 
+    /**
+     * Possibilita o acesso a um filme específico.
+     * @param posicao Posição do filme no Array.
+     * @return O filme.
+     */
     public Filme getFilme(int posicao) {
 
         return this.filmes[posicao - 1];
     }
 
+    /**
+     * Cria um objeto filme e o adiciona ao array de filmes.
+     * @param posicao Posição em que o filme será adicionado.
+     * @param nome Nome do filme.
+     * @param ano Ano de lançamento do filme.
+     * @param local Local em que o filme foi assistido.
+     * @return String que atualiza o usuário se a operação foi bem sucedida ou não.
+     */
     public String cadastraFilme(int posicao, String nome, String ano, String local) {
         if (posicao < 1 || posicao > this.filmes.length) {
             return "POSIÇÃO INVÁLIDA";
@@ -49,6 +69,11 @@ public class FilmNow {
         return "FILME ADICIONADO";
     }
 
+    /**
+     * Elenca os filmes adicionados.
+     * @return String com a lista de filmes.
+     */
+
     public String mostrarTodos() {
         String resultado = "";
 
@@ -60,6 +85,11 @@ public class FilmNow {
         return resultado;
     }
 
+    /**
+     * Detalha um filme.
+     * @param posicao posição do filme a ser detalhado.
+     * @return String com as informações do filme ou, em caso de operação mal sucedida, com o que está impossibilitando a execução.
+     */
     public String detalhaFilme(int posicao) {
         if (posicao < 1 || posicao > 100) {
             return "POSIÇÃO INVÁLIDA!";
@@ -94,6 +124,13 @@ public class FilmNow {
         }
     }
 
+    /**
+     * Adiciona um filme à hotlist.
+     * @param posicaoFilme Posição do filme no array de filmes.
+     * @param posicaoHot Posição em que o filme será adiconado na hotlist.
+     * @return String que atualiza o usuário se a operação foi bem sucedida ou não.
+     */
+
     public String adicionaHot(int posicaoFilme, int posicaoHot) {
         if (posicaoFilme < 1 || posicaoFilme >= filmes.length || this.filmes[posicaoFilme - 1] == null) {
             return "POSIÇÃO DE FILME INVÁLIDA!";
@@ -115,11 +152,20 @@ public class FilmNow {
         return "ADICIONADO À HOTLIST NA POSIÇÃO " + (posicaoHot);
     }
 
+    /**
+     * Remove um filme da hotlist.
+     * @param posicaoHot Posição do filme na hotlist.
+     */
+
     public void removeHot(int posicaoHot) {
 
         this.hotList[posicaoHot - 1] = null;
     }
 
+    /**
+     * Elenca os filmes da hotlist.
+     * @return String com a lista de filmes.
+     */
     public String exibeHotList() {
         String resultadoHot = "";
 
