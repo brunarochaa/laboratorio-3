@@ -3,7 +3,7 @@ package filmnow;
 import java.util.Objects;
 
 /**
- * Repesenta um filme com seu nome, ano de lançamento e local associado ao filme.
+ * Repesenta um filme com nome, ano de lançamento e local associado ao filme.
  * @author Bruna de Medeiros Rocha
  */
 
@@ -88,7 +88,7 @@ public class Filme {
     @Override
     public String toString() {
 
-        if (this.ano != "") {
+        if (!this.ano.isEmpty()) {
             return this.nome + ", " + this.ano;
         }
         return this.nome;
