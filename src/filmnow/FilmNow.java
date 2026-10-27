@@ -148,9 +148,13 @@ public class FilmNow {
      * @param posicaoHot Posição do filme na hotlist.
      */
 
-    public void removeHot(int posicaoHot) {
+    public String removeHot(int posicaoHot) {
 
+        if (posicaoHot < 1 || posicaoHot > 10) {
+            return "POSIÇÃO INVÁLIDA!";
+        }
         this.hotList[posicaoHot - 1] = null;
+        return "FILME REMOVIDO DA HOTLIST!";
     }
 
     /**

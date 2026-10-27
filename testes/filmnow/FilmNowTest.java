@@ -135,8 +135,10 @@ class FilmNowTest {
     @Test
     void removeHot() {
         fs.cadastraFilme(1, "Avatar", "2009", "Disney+");
+        assert fs.removeHot(0).equals("POSIÇÃO INVÁLIDA!");
         fs.adicionaHot(1, 1);
-        fs.removeHot(1);
+        assert fs.removeHot(1).equals("FILME REMOVIDO DA HOTLIST!");
         assert fs.exibeHotList().isEmpty();
+
     }
 }
