@@ -12,6 +12,7 @@ public class FilmNow {
     private static final int TAMANHOHOT = 10;
     private Filme[] filmes;
     private Filme[] hotList;
+    private int quantosLocais;
 
     /**
      * Constrói um objeto FilmNow com capacidade de 100 filmes e uma hotlist de até de 10 filmes.
@@ -19,6 +20,7 @@ public class FilmNow {
     public FilmNow() {
         this.filmes = new Filme[TAMANHO];
         this.hotList = new Filme[TAMANHOHOT];
+        this.quantosLocais = 1;
     }
 
     /**
@@ -50,24 +52,62 @@ public class FilmNow {
      */
     public String cadastraFilme(int posicao, String nome, String ano, String local) {
         if (posicao < 1 || posicao > this.filmes.length) {
-            return "POSIÇÃO INVÁLIDA";
+            return "POSIÇÃO INVÁLIDA!";
         }
 
         if (nome == null || nome.trim().isEmpty() || local == null || local.trim().isEmpty()) {
-            return "FILME INVÁLIDO";
+            return "FILME INVÁLIDO!";
         }
 
         Filme novoFilme = new Filme(nome, ano, local);
 
         for (int i = 0; i < this.filmes.length; i++) {
             if (this.filmes[i] != null && this.filmes[i].equals(novoFilme)) {
-                return "FILME JÁ ADICIONADO";
+                return "FILME JÁ ADICIONADO!";
             }
         }
 
         this.filmes[posicao - 1] = novoFilme;
-        return "FILME ADICIONADO";
+        return "FILME ADICIONADO!";
     }
+    public String adcionaLocal(int posicaoFilme, String local) {
+        if (posicaoFilme < 1 || posicaoFilme > this.filmes.length || this.filmes[posicaoFilme - 1] == null) {
+            return "POSIÇÃO DE FILME INVÁLIDA!";
+        }
+
+        Filme filme = this.filmes[posicaoFilme - 1];
+
+        if (quantosLocais == 5) {
+            return "LIMITE DE LOCAIS ATINGIDO!";
+        }
+
+        for (int i = 0; i < filme.getLocais().length; i++) {
+            String localAtual = filme.getLocais()[i];
+            if (localAtual != null && localAtual.equalsIgnoreCase(local)) {
+                return "LOCAL JÁ ADICIONADO!";
+            }
+        }
+
+        filme.getLocais()[quantosLocais] = local;
+        quantosLocais += 1;
+        return "LOCAL ADICIONADO!";
+    }
+
+    public String removeLocal(int posicaoFilme, int posicaoLocal) {
+        if (posicaoFilme < 1 || posicaoFilme > this.filmes.length || this.filmes[posicaoFilme - 1] == null) {
+            return "POSIÇÃO DE FILME INVÁLIDA!";
+        }
+
+        Filme filme = this.filmes[posicaoFilme - 1];
+
+        if (posicaoLocal < 1 || posicaoLocal > filme.getLocais().length) {
+            return "POSIÇÃO DE LOCAL INVÁLIDA!";
+        }
+
+        filme.getLocais()[posicaoLocal - 1] = null;
+        return "LOCAL REMOVIDO!";
+    }
+
 
     /**
      * Elenca os filmes adicionados.
@@ -109,10 +149,10 @@ public class FilmNow {
         }
 
         if (isHot== true) {
-            return "\uD83D\uDD25" + " " + filme.toString() + "\n" + filme.getLocal();
+            return "\uD83D\uDD25" + " " + filme.toString() + "\n" + filme.exibeLocais();
         }
 
-        return filme.toString() + "\n" + filme.getLocal();
+        return filme.toString() + "\n" + filme.exibeLocais();
         }
 
     /**

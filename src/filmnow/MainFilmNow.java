@@ -39,11 +39,13 @@ public class MainFilmNow {
         System.out.println(
                 "\n---\nMENU\n" +
                         "(A)Adicionar filme\n" +
+                        "(L)Adicionar local\n" +
+                        "(C)Remover local\n" +
                         "(M)Mostrar todos\n" +
                         "(D)Detalhar filme\n" +
-                        "(E) Exibir HotList\n" +
-                        "(H) Atribuit Hot\n" +
-                        "(R) Remover Hot\n" +
+                        "(E)Exibir HotList\n" +
+                        "(H)Atribuit Hot\n" +
+                        "(R)Remover Hot\n" +
                         "(S)air\n" +
                         "\n" +
                         "Opção> ");
@@ -60,6 +62,12 @@ public class MainFilmNow {
         switch (opcao) {
             case "A":
                 adicionaFilme(fn, scanner);
+                break;
+            case "L":
+                adicionarLocal(fn, scanner);
+                break;
+            case "C":
+                removerLocal(fn, scanner);
                 break;
             case "M":
                 mostrarFilmes(fn);
@@ -179,6 +187,23 @@ public class MainFilmNow {
     public static void removerHot(FilmNow fn, Scanner scanner) {
         System.out.println("Posicao> ");
         int posicaoHot = scanner.nextInt();
-        fn.removeHot(posicaoHot);
+        System.out.println(fn.removeHot(posicaoHot));
+    }
+
+    private static void adicionarLocal(FilmNow fn, Scanner scanner) {
+        System.out.println("Posicao do filme> ");
+        int posicaoFilme = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Local> ");
+        String local = scanner.nextLine();
+        System.out.println(fn.adcionaLocal(posicaoFilme, local));
+    }
+
+    private static void removerLocal(FilmNow fn, Scanner scanner) {
+        System.out.println("Posição do filme> ");
+        int posicaoFilme = scanner.nextInt();
+        System.out.println("Posição do local> ");
+        int posicaoLocal = scanner.nextInt();
+        System.out.println(fn.removeLocal(posicaoFilme, posicaoLocal));
     }
 }

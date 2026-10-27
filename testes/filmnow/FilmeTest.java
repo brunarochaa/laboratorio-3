@@ -2,6 +2,8 @@ package filmnow;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 /**
  * Classe de testes responsáveis por validar o comportamento dos dados da classe {@link Filme}.
  * Verifica se os métodos getters retornam os valores corretamente. Importante ressaltar que os testes foram feitos apenas com intuito educativo, uma vez que são métodos triviais.
@@ -54,8 +56,9 @@ class FilmeTest {
      * Resultado esperado: "Cinema".
      */
     @Test
-    void getLocal() {
-
-        assert this.f.getLocal().equals("Cinema");
+    void getLocais() {
+        assertArrayEquals(
+                new String[]{"Cinema", null, null, null, null},
+                this.f.getLocais());
     }
 }

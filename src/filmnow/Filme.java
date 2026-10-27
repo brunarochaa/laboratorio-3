@@ -11,7 +11,7 @@ public class Filme {
 
     private final String nome;
     private final String ano;
-    private final String local;
+    private final String[] locais;
 
     /**
      * Constrói um objeto Filme.
@@ -22,7 +22,8 @@ public class Filme {
     public Filme(String nome, String ano, String local) {
         this.nome = nome;
         this.ano = ano;
-        this.local = local;
+        this.locais = new String[5];
+        this.locais[0] = local;
     }
 
     /**
@@ -47,13 +48,23 @@ public class Filme {
      * Possibilita acesso ao local associado ao filme.
      * @return O local associado ao filme.
      */
-    public String getLocal() {
 
-        return this.local;
+    public String[] getLocais() {
+        return this.locais;
+    }
+
+    public String exibeLocais() {
+        String listaLocais = this.locais[0];
+        for (int i = 1; i < this.locais.length; i++) {
+            if (this.locais[i] != null) {
+                listaLocais += ", " + this.locais[i];
+                }
+            }
+        return listaLocais;
     }
 
     /**
-     * Permite comparar filmes a partir do seu nome e do seu ano de lançmamento com um outro objeto.
+     * Permite comparar filmes a partir do seu nome e do seu ano de lançamento com um outro objeto.
      * @param o  O objeto a ser comparado.
      * @return true se forem iguais; false se não forem.
      */
