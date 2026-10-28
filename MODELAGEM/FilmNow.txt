@@ -1,0 +1,44 @@
+Main
+association FilmNow
+---
+---
++ main(args: String[]): void
+- exibeMenu(): void
+---
+
+FilmNow
+---
+- filmes: Filme[]
+- hotList: Filme[]
+---
++ FilmNow()
++ getFilmes(): Filme[]
++ getFilme(): Filme
++ cadastraFilme(posicao: int, nome: String, ano: String, local: String): String
++ adicionaLocal(posicao: int, local: String): String
++ removeLocal(posicaoFilme: int, posicaoLocal: int): String
++ mostrarTodos(): String
++ detalhaFilme(posicao: int): String
++ adicionaHot(posicaoFilme: int, posicaoHot: int): String
++ removeHot(posicao: int): String
++ exibeHotList(): String
+---
+
+Filme
+composes FilmNow
+---
+- nome: String
+- ano: String
+- local: String
+---
++ Filme(nome: String, ano: String, local: String)
++ getNome(): String
++ getAno(): String
++ getLocais(): String
++ contaLocais(): int
++ exibeLocais(): String
++ equals(o: Object): boolean
++ hashCode(): int
++ toString(): String
+---
+
