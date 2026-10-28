@@ -14,12 +14,28 @@ public class Filme {
     private final String[] locais;
 
     /**
-     * Constrói um objeto Filme.
+     * Constrói um objeto Filme e define as exceções lançadas.
      * @param nome Nome do filme.
      * @param ano Ano de lançamento do filme.
      * @param local Local associado ao filme.
      */
     public Filme(String nome, String ano, String local) {
+        if (nome == null) {
+            throw new NullPointerException("Nome nulo!");
+        }
+        if (nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome inválido!");
+        }
+        if (ano == null) {
+            throw new NullPointerException("Ano nulo!");
+        }
+        if (local == null) {
+            throw new NullPointerException("Local nulo!");
+        }
+        if (local.trim().isEmpty()) {
+            throw new IllegalArgumentException("Local inválido!");
+        }
+
         this.nome = nome;
         this.ano = ano;
         this.locais = new String[5];
@@ -45,7 +61,7 @@ public class Filme {
     }
 
     /**
-     * Possibilita acesso ao local associado ao filme.
+     * Possibilita acesso ao array de locais associados ao filme.
      * @return O local associado ao filme.
      */
 
@@ -53,6 +69,10 @@ public class Filme {
         return this.locais;
     }
 
+    /**
+     * Exibe os locais associados ao filme.
+     * @return String com os locais.
+     */
     public String exibeLocais() {
         String listaLocais = this.locais[0];
         for (int i = 1; i < this.locais.length; i++) {
@@ -61,6 +81,20 @@ public class Filme {
                 }
             }
         return listaLocais;
+    }
+
+    /**
+     * Conta quantos locais já foram adicionados ao filme.
+     * @return Número de locais.
+     */
+    public int contaLocais() {
+        int contador = 0;
+        for (int i = 0; i < this.locais.length; i++) {
+            if (this.locais[i] != null) {
+                contador += 1;
+            }
+        }
+        return contador;
     }
 
     /**

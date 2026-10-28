@@ -31,24 +31,63 @@ class FilmNowTest {
     void cadastraFilme() {
         // Cenário: Filme com todos o parâmetros definidos, inclusive posição válida.
         // Resultado esperado: "FILME ADICIONADO".
-        assert fs.cadastraFilme(1, "Avatar", "2009", "Disney+").equals("FILME ADICIONADO");
+        assert fs.cadastraFilme(1, "Avatar", "2009", "Disney+").equals("FILME ADICIONADO!");
         // Cenário: dois testes com filmes com posições válidas, mas mesmo nome e mesmo ano, em um deles, mesmo local.
         // Resultado esperado: "FILME JÁ ADICIONADO" em ambos os casos.
         fs.cadastraFilme(1, "Avatar", "2009", "Disney+");
-        assert fs.cadastraFilme(3, "Avatar", "2009", "Disney+").equals("FILME JÁ ADICIONADO");
-        assert fs.cadastraFilme(3, "Avatar", "2009", "Netflix").equals("FILME JÁ ADICIONADO");
+        assert fs.cadastraFilme(3, "Avatar", "2009", "Disney+").equals("FILME JÁ ADICIONADO!");
+        assert fs.cadastraFilme(3, "Avatar", "2009", "Netflix").equals("FILME JÁ ADICIONADO!");
         // Cenário: cadastro na última posição válida e em posições inválida (menor que 1 e maior que 100).
         // Resultado esperado: para a última posição "FILME ADICIONADO", para as posições inválidas "POSIÇÃO INVÁLIDA".
-        assert fs.cadastraFilme(100, "Coraline", "2009", "PrimeVideo").equals("FILME ADICIONADO");
-        assert fs.cadastraFilme(101, "A viagem de Chihiro", "2001", "PrimeVideo").equals("POSIÇÃO INVÁLIDA");
-        assert fs.cadastraFilme(0, "Coraline", "2009", "PrimeVideo").equals("POSIÇÃO INVÁLIDA");
-        // Cenário: cadastro de filmes, respectivamente, sem local, sem ano e sem nome.
-        // Resultado esperado: "FILME ADICIONADO" apenas para o filme sem ano, e "FILME INVÁLIDO" para o resto.
-        assert fs.cadastraFilme(1, "O Grinch", "2000", "").equals("FILME INVÁLIDO");
-        assert fs.cadastraFilme(1, "O Grinch", "", "Telecine").equals("FILME ADICIONADO");
-        assert fs.cadastraFilme(1, "", "2000", "Telecine").equals("FILME INVÁLIDO");
+        assert fs.cadastraFilme(100, "Coraline", "2009", "PrimeVideo").equals("FILME ADICIONADO!");
+        assert fs.cadastraFilme(101, "A viagem de Chihiro", "2001", "PrimeVideo").equals("POSIÇÃO INVÁLIDA!");
+        assert fs.cadastraFilme(0, "Coraline", "2009", "PrimeVideo").equals("POSIÇÃO INVÁLIDA!");
     }
 
+    /**
+     * Testa se o método {@link FilmNow#adicionaLocal(int, String)} para avaliar se os retornos correspondem ao esperado.
+     */
+    @Test
+    void adicionaLocal() {
+        // Cenário: Adição em posição de filme inválida.
+        // Resultado esperado: "POSIÇÃO DE FILME INVÁLIDA!".
+        assert fs.adicionaLocal(1, "Netflix").equals("POSIÇÃO DE FILME INVÁLIDA!");
+        // Cenário: Adição de um novo local, diferente do adicionado previamente.
+        // Resultado esperado: "LOCAL ADICIONADO!"
+        fs.cadastraFilme(1, "Coraline", "2009", "PrimeVideo");
+        assert fs.adicionaLocal(1, "Netflix").equals("LOCAL ADICIONADO!");
+        // Cenário: Adição de um local repetido.
+        // Resultado esperado: "LOCAL JÁ ADICIONADO!".
+        fs.adicionaLocal(1, "Netflix");
+        assert fs.adicionaLocal(1, "Netflix").equals("LOCAL JÁ ADICIONADO!");
+        // Cenário: Filme com 4 locais já adicionados. Cadastro em posição limite.
+        // Resultado esperado: "LOCAL ADICIONADO!).
+        fs.adicionaLocal(1, "Disney+");
+        fs.adicionaLocal(1, "HBO Max");
+        assert fs.adicionaLocal(1, "Telecine").equals("LOCAL ADICIONADO!");
+        // Cenário: Filme com 5 locais já adicionados. Cadastro de mais um.
+        // Resultado esperado: "LIMITE DE LOCAIS ATINGIDO!".
+        fs.adicionaLocal(1, "Telecine");
+        assert fs.adicionaLocal(1, "GloboPlay").equals("LIMITE DE LOCAIS ATINGIDO!");
+    }
+
+    @Test
+    void removeLocal() {
+        // Cenário: Remoção de local de um filme não cadastrado.
+        // Resultado esperado: "POSIÇÃO DE FILME INVÁLIDA!".
+        assert fs.removeLocal(1, 1).equals("POSIÇÃO DE FILME INVÁLIDA!");
+        // Cenário: Remoção de local único.
+        // Resultado esperado: "POSIÇÃO DE LOCAL INVÁLIDA!".
+        fs.cadastraFilme(1, "Coraline", "2009", "PrimeVideo");
+        assert fs.removeLocal(1, 1).equals("POSIÇÃO DE LOCAL INVÁLIDA!");
+        // Cenário: Remoção de local não cadastrado.
+        // CResultado esperado: "POSIÇÃO DE LOCAL INVÁLIDA!".
+        assert fs.removeLocal(1, 5).equals("POSIÇÃO DE LOCAL INVÁLIDA!");
+        // Cenário: Remoção de local cadastrado e não único.
+        // Resultado esperado: "LOCAL REMOVIDO!".
+        fs.adicionaLocal(1, "Netflix");
+        assert fs.removeLocal(1, 1).equals("POSIÇÃO DE LOCAL INVÁLIDA!");
+    }
     /**
      * Testa o método {@link FilmNow#detalhaFilme(int)} para avaliar se o retorno corresponde ao detalhamento esperado.
      */
@@ -134,8 +173,15 @@ class FilmNowTest {
      */
     @Test
     void removeHot() {
+        // Cenário: Remoção de um filme numa posição não preenchida.
+        // Resultado esperado: "POSIÇÃO INVÁLIDA!".
+        assert fs.removeHot(1).equals("POSIÇÃO INVÁLIDA!");
+        // Cenário: Remoção de um filme numa posição fora do intervalo possível (1 a 10).
+        // Resultado esperado: "POSIÇÃO INVÁLIDA!".
         fs.cadastraFilme(1, "Avatar", "2009", "Disney+");
         assert fs.removeHot(0).equals("POSIÇÃO INVÁLIDA!");
+        // Cenário: Remoção de filme único da hotlist em posição válida.
+        // Resultado esperado: "FILME REMOVIDO DA HOTLIST!" e hotlist vazia.
         fs.adicionaHot(1, 1);
         assert fs.removeHot(1).equals("FILME REMOVIDO DA HOTLIST!");
         assert fs.exibeHotList().isEmpty();

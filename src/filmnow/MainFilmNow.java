@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-/**
+/**a
  * Classe responsável pela interface do usuário.
  */
 public class MainFilmNow {
@@ -196,7 +196,7 @@ public class MainFilmNow {
         scanner.nextLine();
         System.out.println("Local> ");
         String local = scanner.nextLine();
-        System.out.println(fn.adcionaLocal(posicaoFilme, local));
+        System.out.println(fn.adicionaLocal(posicaoFilme, local));
     }
 
     private static void removerLocal(FilmNow fn, Scanner scanner) {

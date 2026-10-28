@@ -12,7 +12,6 @@ public class FilmNow {
     private static final int TAMANHOHOT = 10;
     private Filme[] filmes;
     private Filme[] hotList;
-    private int quantosLocais;
 
     /**
      * Constrói um objeto FilmNow com capacidade de 100 filmes e uma hotlist de até de 10 filmes.
@@ -20,7 +19,6 @@ public class FilmNow {
     public FilmNow() {
         this.filmes = new Filme[TAMANHO];
         this.hotList = new Filme[TAMANHOHOT];
-        this.quantosLocais = 1;
     }
 
     /**
@@ -51,14 +49,11 @@ public class FilmNow {
      * @return String que atualiza o usuário se a operação foi bem sucedida ou não.
      */
     public String cadastraFilme(int posicao, String nome, String ano, String local) {
+        // verifica se a posição é válida
         if (posicao < 1 || posicao > this.filmes.length) {
             return "POSIÇÃO INVÁLIDA!";
         }
-
-        if (nome == null || nome.trim().isEmpty() || local == null || local.trim().isEmpty()) {
-            return "FILME INVÁLIDO!";
-        }
-
+    // verifica se já existe um filme igual em filmes
         Filme novoFilme = new Filme(nome, ano, local);
 
         for (int i = 0; i < this.filmes.length; i++) {
@@ -70,37 +65,52 @@ public class FilmNow {
         this.filmes[posicao - 1] = novoFilme;
         return "FILME ADICIONADO!";
     }
-    public String adcionaLocal(int posicaoFilme, String local) {
+
+    /**
+     * Adiciona um novo local associado a um filme.
+     * @param posicaoFilme Posição do filme.
+     * @param local Novo local.
+     * @return Status da operação.
+     */
+    public String adicionaLocal(int posicaoFilme, String local) {
+        // verifica se a posição é válida
         if (posicaoFilme < 1 || posicaoFilme > this.filmes.length || this.filmes[posicaoFilme - 1] == null) {
             return "POSIÇÃO DE FILME INVÁLIDA!";
         }
-
+        // verifica se ainda há espaço disponível para um local
         Filme filme = this.filmes[posicaoFilme - 1];
 
-        if (quantosLocais == 5) {
+        if (filme.contaLocais() == 5) {
             return "LIMITE DE LOCAIS ATINGIDO!";
         }
-
+        // verifica se o local já foi adicionado antes
         for (int i = 0; i < filme.getLocais().length; i++) {
             String localAtual = filme.getLocais()[i];
             if (localAtual != null && localAtual.equalsIgnoreCase(local)) {
                 return "LOCAL JÁ ADICIONADO!";
             }
         }
+        int posicao = filme.contaLocais();
 
-        filme.getLocais()[quantosLocais] = local;
-        quantosLocais += 1;
+        filme.getLocais()[posicao] = local;
         return "LOCAL ADICIONADO!";
     }
 
+    /**
+     * Remove um local adicionado posteriormente ao cadastro do filme.
+     * @param posicaoFilme Posição do filme.
+     * @param posicaoLocal Posição do local.
+     * @return Status da operação.
+     */
     public String removeLocal(int posicaoFilme, int posicaoLocal) {
+        // verifica se a posição do filme é válida (dentro do intervalo e não nula)
         if (posicaoFilme < 1 || posicaoFilme > this.filmes.length || this.filmes[posicaoFilme - 1] == null) {
             return "POSIÇÃO DE FILME INVÁLIDA!";
         }
 
         Filme filme = this.filmes[posicaoFilme - 1];
-
-        if (posicaoLocal < 1 || posicaoLocal > filme.getLocais().length) {
+        // verifica se a posição do local é válida (dentro do intervalo que permite ser removido - de 2 a 5)
+        if (posicaoLocal < 2 || posicaoLocal >= filme.getLocais().length) {
             return "POSIÇÃO DE LOCAL INVÁLIDA!";
         }
 
@@ -131,15 +141,13 @@ public class FilmNow {
      * @return String com as informações do filme ou, em caso de operação mal sucedida, com o que está impossibilitando a execução.
      */
     public String detalhaFilme(int posicao) {
-        if (posicao < 1 || posicao > 100) {
+        // verifica se a posição é válida (dentro do intervalo e não nulo)
+        if (posicao < 1 || posicao > 100 || this.filmes[posicao - 1] == null) {
             return "POSIÇÃO INVÁLIDA!";
         }
-
         Filme filme = this.filmes[posicao - 1];
-        if (filme == null) {
-            return "POSIÇÃO INVÁLIDA!";
-        }
 
+        // verifica se o filme está na hotlist
         boolean isHot = false;
         for (int i = 0; i < this.hotList.length; i++) {
             if (this.hotList[i] != null && this.hotList[i].equals(filme)) {
@@ -148,6 +156,7 @@ public class FilmNow {
             }
         }
 
+        // define o detalhamento para os dois casos: o filme está ou não na hotlist
         if (isHot== true) {
             return "\uD83D\uDD25" + " " + filme.toString() + "\n" + filme.exibeLocais();
         }
@@ -163,16 +172,18 @@ public class FilmNow {
      */
 
     public String adicionaHot(int posicaoFilme, int posicaoHot) {
+        // verifica se a posição do filme é válida (dentro do intervalo e não nula)
         if (posicaoFilme < 1 || posicaoFilme >= filmes.length || this.filmes[posicaoFilme - 1] == null) {
             return "POSIÇÃO DE FILME INVÁLIDA!";
         }
-
+        // verifica se a posição da hotlist é válida (dentro do intervalo)
         if (posicaoHot < 1 || posicaoHot > this.hotList.length) {
             return "POSIÇÃO DA HOTLIST INVÁLIDA!";
         }
 
         Filme filmeAAdicionar = this.filmes[posicaoFilme - 1];
 
+        // verifica se o filme já foi adicionado à hotlist
         for (int i = 0; i < this.hotList.length; i++) {
             if (this.hotList[i] != null && this.hotList[i].equals(filmeAAdicionar)) {
                 return "FILME JÁ ESTÁ NA HOTLIST!";
@@ -189,8 +200,8 @@ public class FilmNow {
      */
 
     public String removeHot(int posicaoHot) {
-
-        if (posicaoHot < 1 || posicaoHot > 10) {
+        // verifica se a posição é válida (dentro do intervalo e não nulo)
+        if (posicaoHot < 1 || posicaoHot > 10 || this.hotList[posicaoHot - 1] == null) {
             return "POSIÇÃO INVÁLIDA!";
         }
         this.hotList[posicaoHot - 1] = null;
